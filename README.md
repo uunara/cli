@@ -1,36 +1,70 @@
 # Uunara Agent CLI
 
-Public binary distribution for the Uunara agent CLI.
+Command-line access to Uunara recipes and cooking for assistants and terminal users.
+This public distribution repository contains compiled binaries; the CLI source
+is maintained separately.
 
-This repository is used to publish compiled CLI binaries through GitHub Releases. The CLI source code is not published here.
+## Download
 
-## Install
+Get the archive for your operating system and architecture from the
+[latest release](https://github.com/uunara/cli/releases/latest):
 
-Download the archive for your operating system and architecture from the [latest release](https://github.com/uunara/cli/releases/latest):
+- Apple Silicon Mac: `uunara-agent_*_darwin_arm64.zip`
+- Intel Mac: `uunara-agent_*_darwin_amd64.zip`
+- Linux ARM64: `uunara-agent_*_linux_arm64.tar.gz`
+- Linux x86_64: `uunara-agent_*_linux_amd64.tar.gz`
+- Windows x86_64: `uunara-agent_*_windows_amd64.zip`
+- Windows ARM64: `uunara-agent_*_windows_arm64.zip`
 
-- `uunara-agent_*_darwin_arm64.tar.gz` for Apple Silicon Macs
-- `uunara-agent_*_darwin_amd64.tar.gz` for Intel Macs
-- `uunara-agent_*_linux_arm64.tar.gz` for Linux ARM64
-- `uunara-agent_*_linux_amd64.tar.gz` for Linux x86_64
-- `uunara-agent_*_windows_amd64.zip` for Windows x86_64
-- `uunara-agent_*_windows_arm64.zip` for Windows ARM64
+Extract the archive and move `uunara-agent` (or `uunara-agent.exe` on Windows)
+to a directory on your `PATH`.
 
-After extracting the archive, move `uunara-agent` to a directory on your `PATH`.
+On macOS or Linux, for example:
 
 ```sh
+mkdir -p "$HOME/.local/bin"
+# Run from the extracted directory containing uunara-agent:
+install -m 755 uunara-agent "$HOME/.local/bin/uunara-agent"
+export PATH="$HOME/.local/bin:$PATH"
 uunara-agent version
 ```
 
-## Checksums
+Add `$HOME/.local/bin` to your shell's PATH configuration to keep it available
+in new terminal sessions.
 
-Each release includes `checksums.txt` with SHA-256 checksums for the release archives.
+## macOS signing status
 
-On macOS or Linux:
+The initial v0.1.0 release predates signed, notarized macOS distribution.
+Use v0.1.1 or newer for notarized macOS builds.
+
+Starting with v0.1.1, macOS releases are Developer ID signed and Apple-notarized.
+Choose the `.pkg` installer for Apple Silicon or Intel to install
+`uunara-agent` into `/usr/local/bin`, or download the corresponding ZIP.
+
+## Verify downloads
+
+Each release includes `checksums.txt` containing SHA-256 checksums. Download it
+alongside your archive, then compare the matching checksum:
 
 ```sh
-shasum -a 256 -c checksums.txt
+# Replace ARCHIVE with your downloaded archive's filename:
+shasum -a 256 ARCHIVE
+# Linux alternative:
+sha256sum ARCHIVE
+# Windows PowerShell:
+Get-FileHash .\ARCHIVE -Algorithm SHA256
 ```
 
-## macOS Signing
+## Connect to Uunara
 
-Initial macOS binaries may be unsigned. Signed and notarized macOS artifacts will be added in a future release.
+```sh
+uunara-agent version
+uunara-agent login
+uunara-agent agent-info
+uunara-agent recipe list
+```
+
+Login opens your browser to authorize access to your Uunara account. The
+default service is `https://app.uunara.com`.
+
+Learn more at [uunara.com](https://uunara.com).
